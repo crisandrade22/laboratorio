@@ -154,7 +154,7 @@
                                         <Image url="@imagens/ic_cart.png"/>
                                     </image>
                                 </ImageView>
-                                <TextField text ="R$ " fx:id="valorTotalCompra" alignment="CENTER" styleClass="purple" stylesheets="@style.css"/>
+                                <TextField text ="R$ " fx:id="valorTotalCompra" alignment="CENTER" styleClass="transparent" stylesheets="@style.css"/>
                             </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">

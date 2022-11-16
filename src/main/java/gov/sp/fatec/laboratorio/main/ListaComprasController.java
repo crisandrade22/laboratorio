@@ -23,7 +23,13 @@ import java.net.URL;
 import java.util.*;
 
 public class ListaComprasController implements Initializable {
-
+//TODO Conexão com o banco de dados.
+//TODO Arredondamento dos valores, que estão sendo apresentados com muitas casas decimais.
+//TODO O campo de busca somente retornar os produtos procurados
+//TODO salvar no banco de dados compras finalizadas.
+//TODO quando clicar no carrinho aparecer a lista de todos os produtos adicionados.
+//TODO colocar botão para adicionar, excluir ou alterar produtos.
+//TODO mostrar para o usuário compras anteriores.
     @FXML
     private VBox produtoEscolhido;
 

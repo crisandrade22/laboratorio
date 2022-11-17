@@ -24,6 +24,7 @@ import java.util.*;
 
 public class ListaComprasController implements Initializable {
 //TODO Conexão com o banco de dados.
+//TODO quando a chave do produto já existe e a pessoa for adicionar o mesmo item, somar a quantidade na mesma chave.
 //TODO Arredondamento dos valores, que estão sendo apresentados com muitas casas decimais.
 //TODO O campo de busca somente retornar os produtos procurados
 //TODO salvar no banco de dados compras finalizadas.

@@ -41,7 +41,7 @@
         </VBox>
     </children>
     <styleClass>
-        <String fx:value="fruit-item" />
+        <String fx:value="produto-item" />
         <String fx:value="shadow" />
     </styleClass>
 </AnchorPane>

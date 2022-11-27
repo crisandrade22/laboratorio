@@ -45,8 +45,6 @@ public class ListaComprasController implements Initializable {
 
     private Produto produtoAtual;
 
-//    private List<Produto> produtosAdicionados = new ArrayList<>();
-
     private Map<Produto, Integer> produtosAdicionados = new HashMap<>();
 
     @FXML
@@ -254,7 +252,6 @@ public class ListaComprasController implements Initializable {
             valorTotalizado = produtoAtual.getPreçoProduto() * quantidade;
         }
         return valorTotalizado;
-
     }
 }
 

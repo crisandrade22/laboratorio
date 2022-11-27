@@ -2,11 +2,9 @@ package gov.sp.fatec.laboratorio.main;
 
 import gov.sp.fatec.laboratorio.model.Produto;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class ItemController {

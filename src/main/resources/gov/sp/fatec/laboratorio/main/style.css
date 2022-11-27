@@ -24,7 +24,7 @@
     -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
 }
 
-.chosen-fruit-card{
+.chosen-produto-card{
     -fx-background-color: #F16C31;
     -fx-background-radius: 30;
 }
@@ -49,7 +49,7 @@
     -fx-background-radius: 30;
 }
 
-.fruit-item{
+.produto-item{
     -fx-background-color: #FFFFFF;
         -fx-background-radius: 30;
 }

@@ -1,29 +1,35 @@
 package gov.sp.fatec.laboratorio.main;
 
 import gov.sp.fatec.laboratorio.model.Produto;
+import gov.sp.fatec.laboratorio.model.Sacola;
+import javafx.application.Application;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.geometry.Orientation;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxListCell;
+import javafx.scene.effect.ImageInput;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.*;
 import java.util.*;
 
 public class ListaComprasController implements Initializable {
-//TODO Conexão com o banco de dados.
 //TODO quando a chave do produto já existe e a pessoa for adicionar o mesmo item, somar a quantidade na mesma chave.
 //TODO Arredondamento dos valores, que estão sendo apresentados com muitas casas decimais.
 //TODO O campo de busca somente retornar os produtos procurados
@@ -31,6 +37,12 @@ public class ListaComprasController implements Initializable {
 //TODO quando clicar no carrinho aparecer a lista de todos os produtos adicionados.
 //TODO colocar botão para adicionar, excluir ou alterar produtos.
 //TODO mostrar para o usuário compras anteriores.
+
+    ObservableList lista = FXCollections.observableArrayList();
+
+    @FXML
+    private ListView<Produto> produtos;
+
     @FXML
     private VBox produtoEscolhido;
 
@@ -44,8 +56,6 @@ public class ListaComprasController implements Initializable {
     private TextField textFieldQuantidade;
 
     private Produto produtoAtual;
-
-    private Map<Produto, Integer> produtosAdicionados = new HashMap<>();
 
     @FXML
     private Button button;
@@ -72,94 +82,42 @@ public class ListaComprasController implements Initializable {
     private MyListener myListener;
 
     private List<Produto> getData() {
+        String url = "jdbc:mysql://172.20.0.3:3306/laboratorio?useTimezone=true&serverTimezone=UTC";
+        String username = "root";
+        String password = "1";
+
+        System.out.println("Connecting database...");
+        PreparedStatement p = null;
+        ResultSet rs = null;
+
         List<Produto> listaProdutos = new ArrayList<>();
-        Produto produto;
-
-        produto = new Produto();
-        produto.setNomeProduto("açúcar");
-        produto.setPreçoProduto(3.89);
-        produto.setImagemSource("/gov/sp/fatec/laboratorio/main/imagens/acucar-uniao.png");
-        produto.setCor("24736e");
-        listaProdutos.add(produto);
-
-        produto = new Produto();
-        produto.setNomeProduto("arroz");
-        produto.setPreçoProduto(5.89);
-        produto.setImagemSource("/gov/sp/fatec/laboratorio/main/imagens/arroz-prato-fino.png");
-        produto.setCor("24736e");
-        listaProdutos.add(produto);
-
-        produto = new Produto();
-        produto.setNomeProduto("café");
-        produto.setPreçoProduto(19.99);
-        produto.setImagemSource("/gov/sp/fatec/laboratorio/main/imagens/cafe-pilao.png");
-        produto.setCor("24736e");
-        listaProdutos.add(produto);
-
-        produto = new Produto();
-        produto.setNomeProduto("farofa");
-        produto.setPreçoProduto(5.52);
-        produto.setImagemSource("/gov/sp/fatec/laboratorio/main/imagens/farofa-panco.png");
-        produto.setCor("24736e");
-        listaProdutos.add(produto);
-
-        produto = new Produto();
-        produto.setNomeProduto("feijão");
-        produto.setPreçoProduto(6.99);
-        produto.setImagemSource("/gov/sp/fatec/laboratorio/main/imagens/feijao-carioca-kicaldo.png");
-        produto.setCor("24736e");
-        listaProdutos.add(produto);
-
-        produto = new Produto();
-        produto.setNomeProduto("lámen");
-        produto.setPreçoProduto(2.29);
-        produto.setImagemSource("/gov/sp/fatec/laboratorio/main/imagens/lamen-nissin.png");
-        produto.setCor("24736e");
-        listaProdutos.add(produto);
-
-        produto = new Produto();
-        produto.setNomeProduto("macarrão");
-        produto.setPreçoProduto(4.19);
-        produto.setImagemSource("/gov/sp/fatec/laboratorio/main/imagens/macarrao-pena-reanata.png");
-        produto.setCor("24736e");
-        listaProdutos.add(produto);
-
-        produto = new Produto();
-        produto.setNomeProduto("manteiga");
-        produto.setPreçoProduto(11.29);
-        produto.setImagemSource("/gov/sp/fatec/laboratorio/main/imagens/manteiga-tirol.png");
-        produto.setCor("24736e");
-        listaProdutos.add(produto);
-
-        produto = new Produto();
-        produto.setNomeProduto("óleo de soja");
-        produto.setPreçoProduto(7.79);
-        produto.setImagemSource("/gov/sp/fatec/laboratorio/main/imagens/oleo-soja-lisa.png");
-        produto.setCor("24736e");
-        listaProdutos.add(produto);
-
-        produto = new Produto();
-        produto.setNomeProduto("sal");
-        produto.setPreçoProduto(2.59);
-        produto.setImagemSource("/gov/sp/fatec/laboratorio/main/imagens/sal-cisne.png");
-        produto.setCor("24736e");
-        listaProdutos.add(produto);
-
-        produto = new Produto();
-        produto.setNomeProduto("farinha de trigo");
-        produto.setPreçoProduto(5.29);
-        produto.setImagemSource("/gov/sp/fatec/laboratorio/main/imagens/farinha-trigo-primor.png");
-        produto.setCor("24736e");
-        listaProdutos.add(produto);
-
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            String sql = "select * from produtos";
+            p = connection.prepareStatement(sql);
+            rs = p.executeQuery();
+            while(rs.next()) {
+                Produto produto = new Produto();
+                String nome = rs.getString("nome");
+                System.out.println("Produto: " + nome + " Preço: " + rs.getDouble("preco_unitario"));
+                produto.setNomeProduto(rs.getString("nome"));
+                produto.setPrecoProduto(rs.getDouble("preco_unitario"));
+                produto.setImagemSource(rs.getString("caminho_imagem"));
+                produto.setCor("24736e");
+                listaProdutos.add(produto);
+            }
+            System.out.println("Database connected!");
+        } catch (SQLException e) {
+            throw new IllegalStateException("Cannot connect the database!", e);
+        }
+        System.out.println("Tamanho da Lista: " + listaProdutos.size());
         return listaProdutos;
-
     }
 
     private void setProdutoEscolhido(Produto produto) {
         labelNomeProduto.setText(produto.getNomeProduto());
-        labelPrecoProduto.setText(Main.CURRENCY + produto.getPreçoProduto());
-        imagemProduto = new Image(getClass().getResourceAsStream(produto.getImagemSource()));
+        labelPrecoProduto.setText(Main.CURRENCY + produto.getPrecoProduto());
+        File imageFile = new File(produto.getImagemSource());
+        imagemProduto = new Image(imageFile.toURI().toString());
         produtoImagem.setImage(imagemProduto);
         produtoAtual = produto;
         produtoEscolhido.setStyle("-fx-background-color: #" + produto.getCor() + ";\n" + "     -fx-background-radius" +
@@ -168,6 +126,7 @@ public class ListaComprasController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resourceBundle) {
+        System.out.println("Initialize size: " + listaProdutos.size());
         listaProdutos.addAll(getData());
         if(listaProdutos.size() > 0) {
             setProdutoEscolhido(listaProdutos.get(0));
@@ -220,8 +179,8 @@ public class ListaComprasController implements Initializable {
         System.out.println("Olha eu aqui");
         String text = getTextFieldQuantidade();
         int quantidade = Integer.parseInt(text);
-        produtosAdicionados.put(produtoAtual, quantidade);
-        System.out.println("produtosAdicionados = " + produtosAdicionados);
+        Sacola.getInstance().adicionar(produtoAtual, quantidade);
+        System.out.println("produtosAdicionados = " + Sacola.getInstance());
     }
 
     public String getTextFieldQuantidade() {
@@ -231,13 +190,33 @@ public class ListaComprasController implements Initializable {
     @FXML
     public Double calcularValorTotal(MouseEvent event) {
         double totalPagar = 0;
-        for(Map.Entry<Produto, Integer> entry : produtosAdicionados.entrySet()) {
-           totalPagar +=  entry.getKey().getPreçoProduto() * entry.getValue();
+        for(Map.Entry<Produto, Integer> entry : Sacola.getInstance().entradas()) {
+           totalPagar +=  entry.getKey().getPrecoProduto() * entry.getValue();
         }
         valorTotalCompra.setText(String.valueOf(totalPagar));
+
         return totalPagar;
     }
 
+
+    public void pressButton(MouseEvent event){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("carrinho.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            fxmlLoader.getController();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+//    @FXML
+//    public void carrinho() {
+//        lista.removeAll(lista);
+//        lista.addAll(produtosAdicionados.keySet());
+//        produtos.getItems().addAll(lista);
+//    }
     @FXML
     public double valorTotalProduto(KeyEvent key) {
         double valorTotalizado = 0;
@@ -247,11 +226,12 @@ public class ListaComprasController implements Initializable {
         else {
             String text = getTextFieldQuantidade();
             int quantidade = Integer.parseInt(text);
-            System.out.println("Valor total: " + produtoAtual.getPreçoProduto() * quantidade);
-            precoTotal.setText(String.valueOf(produtoAtual.getPreçoProduto() * quantidade));
-            valorTotalizado = produtoAtual.getPreçoProduto() * quantidade;
+            System.out.println("Valor total: " + produtoAtual.getPrecoProduto() * quantidade);
+            precoTotal.setText(String.valueOf(produtoAtual.getPrecoProduto() * quantidade));
+            valorTotalizado = produtoAtual.getPrecoProduto() * quantidade;
         }
         return valorTotalizado;
     }
+
 }
 

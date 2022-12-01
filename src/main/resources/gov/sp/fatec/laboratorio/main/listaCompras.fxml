@@ -149,7 +149,7 @@
                             </VBox.margin>
                             <children>
                                 <Pane prefHeight="65.0" prefWidth="393.0" HBox.hgrow="ALWAYS" />
-                                <ImageView  fitHeight="50.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#calcularValorTotal">
+                                <ImageView  fitHeight="50.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#pressButton">
                                     <image>
                                         <Image url="@imagens/ic_cart.png"/>
                                     </image>

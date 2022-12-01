@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="878.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.sp.fatec.laboratorio.main.Carrinho">
+   <children>
+      <ListView fx:id="listCarrinho" layoutX="147.0" layoutY="158.0" prefHeight="596.0" prefWidth="571.0" />
+      <Label fx:id="myLabel" alignment="CENTER" layoutX="260.0" layoutY="61.0" text="Itens no Carrinho" textAlignment="CENTER">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -6,7 +6,7 @@ public class Produto {
 
     private String imagemSource;
 
-    private double preçoProduto;
+    private double precoProduto;
 
     private String cor;
 
@@ -26,12 +26,12 @@ public class Produto {
         this.imagemSource = imagemSource;
     }
 
-    public double getPreçoProduto() {
-        return preçoProduto;
+    public double getPrecoProduto() {
+        return precoProduto;
     }
 
-    public void setPreçoProduto(double preçoProduto) {
-        this.preçoProduto = preçoProduto;
+    public void setPrecoProduto(double precoProduto) {
+        this.precoProduto = precoProduto;
     }
 
     public String getCor() {
@@ -47,7 +47,7 @@ public class Produto {
         return "Produto{" +
                 "nomeProduto='" + nomeProduto + '\'' +
                 ", imagemSource='" + imagemSource + '\'' +
-                ", preçoProduto=" + preçoProduto +
+                ", preçoProduto=" + precoProduto +
                 ", cor='" + cor + '\'' +
                 '}';
     }

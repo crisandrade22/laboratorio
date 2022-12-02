@@ -19,12 +19,12 @@
                     <children>
                         <Label fx:id="labelItem" prefHeight="49.0" prefWidth="137.0" text="Cherry">
                             <font>
-                                <Font name="Cambria" size="18.0" />
+                                <Font name="Cambria" size="14.0" />
                             </font>
                         </Label>
                         <Label fx:id="labelPreco" prefHeight="49.0" prefWidth="101.0" text="\$0.99">
                             <font>
-                                <Font name="Cambria Bold" size="18.0" />
+                                <Font name="Cambria Bold" size="14.0" />
                             </font>
                         </Label>
                     </children>

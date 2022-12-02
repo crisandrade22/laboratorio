@@ -2,36 +2,36 @@ package gov.sp.fatec.laboratorio.main;
 
 import gov.sp.fatec.laboratorio.model.Produto;
 import gov.sp.fatec.laboratorio.model.Sacola;
-import javafx.application.Application;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.ComboBoxListCell;
-import javafx.scene.effect.ImageInput;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class ListaComprasController implements Initializable {
 //TODO quando a chave do produto já existe e a pessoa for adicionar o mesmo item, somar a quantidade na mesma chave.
-//TODO Arredondamento dos valores, que estão sendo apresentados com muitas casas decimais.
 //TODO O campo de busca somente retornar os produtos procurados
 //TODO salvar no banco de dados compras finalizadas.
 //TODO quando clicar no carrinho aparecer a lista de todos os produtos adicionados.
@@ -115,7 +115,7 @@ public class ListaComprasController implements Initializable {
 
     private void setProdutoEscolhido(Produto produto) {
         labelNomeProduto.setText(produto.getNomeProduto());
-        labelPrecoProduto.setText(Main.CURRENCY + produto.getPrecoProduto());
+        labelPrecoProduto.setText(Main.CURRENCY + String.format("%.2f", produto.getPrecoProduto()));
         File imageFile = new File(produto.getImagemSource());
         imagemProduto = new Image(imageFile.toURI().toString());
         produtoImagem.setImage(imagemProduto);
@@ -191,6 +191,7 @@ public class ListaComprasController implements Initializable {
     public Double calcularValorTotal(MouseEvent event) {
         double totalPagar = 0;
         for(Map.Entry<Produto, Integer> entry : Sacola.getInstance().entradas()) {
+            System.out.println("Get preço produto: " + entry.getKey().getPrecoProduto() + "Get entry value: " + entry.getValue());
            totalPagar +=  entry.getKey().getPrecoProduto() * entry.getValue();
         }
         valorTotalCompra.setText(String.valueOf(totalPagar));
@@ -218,8 +219,9 @@ public class ListaComprasController implements Initializable {
 //        produtos.getItems().addAll(lista);
 //    }
     @FXML
-    public double valorTotalProduto(KeyEvent key) {
+    public String valorTotalProduto(KeyEvent key) {
         double valorTotalizado = 0;
+        String format = null;
         if(getTextFieldQuantidade().isBlank()){
             precoTotal.setText("");
         }
@@ -227,10 +229,11 @@ public class ListaComprasController implements Initializable {
             String text = getTextFieldQuantidade();
             int quantidade = Integer.parseInt(text);
             System.out.println("Valor total: " + produtoAtual.getPrecoProduto() * quantidade);
-            precoTotal.setText(String.valueOf(produtoAtual.getPrecoProduto() * quantidade));
+            precoTotal.setText(String.format("%.2f", (produtoAtual.getPrecoProduto() * quantidade)));
             valorTotalizado = produtoAtual.getPrecoProduto() * quantidade;
+            format = String.format("%.2f", valorTotalizado);
         }
-        return valorTotalizado;
+        return format;
     }
 
 }

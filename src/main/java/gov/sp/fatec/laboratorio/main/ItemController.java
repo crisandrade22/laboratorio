@@ -31,7 +31,7 @@ public class ItemController {
         this.produto = produto;
         this.myListener = myListener;
         labelItem.setText(produto.getNomeProduto());
-        labelPreco.setText(Main.CURRENCY + produto.getPrecoProduto());
+        labelPreco.setText(Main.CURRENCY + String.format("%.2f", produto.getPrecoProduto()));
         File imageFile = new File(produto.getImagemSource());
         Image image= new Image(imageFile.toURI().toString());
         imageView.setImage(image);

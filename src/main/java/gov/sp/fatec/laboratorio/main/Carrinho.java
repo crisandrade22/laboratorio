@@ -2,22 +2,10 @@ package gov.sp.fatec.laboratorio.main;
 
 import gov.sp.fatec.laboratorio.model.Produto;
 import gov.sp.fatec.laboratorio.model.Sacola;
-import javafx.application.Application;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.binding.NumberBinding;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.*;
@@ -26,7 +14,7 @@ import java.util.*;
 public class Carrinho implements Initializable {
 
     @FXML
-    private ListView<String>listCarrinho;
+    private ListView<String> listCarrinho;
 
     @FXML
     Label myLabel;
@@ -38,6 +26,7 @@ public class Carrinho implements Initializable {
 
     Map<String, Double> teste = new HashMap<>();
 
+//    TODO acrescentar lógica de quando o produto estiver selecionado, poder excluir, alterar.
     String produtoSelecionado;
 
 
@@ -54,53 +43,19 @@ public class Carrinho implements Initializable {
             precosProdutos.add(produto.getPrecoProduto());
             teste.put(produto.getNomeProduto(), produto.getPrecoProduto());
         }
-        listCarrinho.getItems().addAll(nomesProdutos + " " + precosProdutos);
+
+        String totalPagar;
+        for (Map.Entry<Produto, Integer> entry : Sacola.getInstance().entradas()) {
+            System.out.println("Get preço produto: " + entry.getKey().getPrecoProduto() + "Get entry value: " + entry.getValue());
+            totalPagar = String.format("%.2f", entry.getKey().getPrecoProduto() * entry.getValue());
+
+            listCarrinho.getItems().addAll("Produto: " + " " + entry.getKey().getNomeProduto() + " Preço Unitário: " + " " + entry.getKey().getPrecoProduto() + " Preço Total: " + totalPagar);
+        }
     }
 
-
-//    ObservableList lista = FXCollections.observableArrayList();
-//    ListView listView = new ListView();
-//
-//    private Produto produto;
-//
-//    @FXML
-//    private ListView<Produto> cristiane;
-//
-//    private List<Produto> listaProdutos = new ArrayList<>();
-//
-//    @Override
-//    public void initialize(URL location, ResourceBundle resourceBundle) {
-//        Sacola sacola = Sacola.getInstance();
-//
-//        listaProdutos.addAll(sacola.chaves());
-//        lista.addAll(listaProdutos);
-//        listView.getItems().add(lista);
-//        System.out.println(listaProdutos);
-//
-//    }
-
+    public void adicionarCarrinho(javafx.scene.input.MouseEvent mouseEvent) {
+        for (String item : listCarrinho.getItems()) {
+            System.out.println("Item: " + item);
+        }
+    }
 }
-
-//public class Carrinho extends Application {
-//    private List<Produto> listaProdutos = new ArrayList<>();
-//    ObservableList lista = FXCollections.observableArrayList();
-//
-//    @FXML
-//    ListView listCarrinho = new ListView();
-//
-//    @Override
-//    public void start(Stage stage) throws Exception {
-//        stage.setTitle("ListView Experiment 1");
-//
-//        Sacola sacola = Sacola.getInstance();
-//
-//        ListView listCarrinho = new ListView();
-//        listaProdutos.addAll(sacola.chaves());
-//        lista.addAll(listaProdutos);
-//        listCarrinho.getItems().add(lista);
-//    }
-//
-//    public static void main(String[] args) {
-//        Application.launch(args);
-//    }
-//}

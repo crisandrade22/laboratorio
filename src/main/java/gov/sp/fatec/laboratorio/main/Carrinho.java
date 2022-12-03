@@ -45,11 +45,12 @@ public class Carrinho implements Initializable {
         }
 
         String totalPagar;
+        listCarrinho.getItems().addAll("Produto                 Preço Unitário              Preço Total");
         for (Map.Entry<Produto, Integer> entry : Sacola.getInstance().entradas()) {
             System.out.println("Get preço produto: " + entry.getKey().getPrecoProduto() + "Get entry value: " + entry.getValue());
             totalPagar = String.format("%.2f", entry.getKey().getPrecoProduto() * entry.getValue());
 
-            listCarrinho.getItems().addAll("Produto: " + " " + entry.getKey().getNomeProduto() + " Preço Unitário: " + " " + entry.getKey().getPrecoProduto() + " Preço Total: " + totalPagar);
+            listCarrinho.getItems().addAll(entry.getKey().getNomeProduto() + "                     " + entry.getKey().getPrecoProduto() + "                             " + totalPagar);
         }
     }
 

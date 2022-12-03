@@ -25,10 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ListaComprasController implements Initializable {
 //TODO quando a chave do produto já existe e a pessoa for adicionar o mesmo item, somar a quantidade na mesma chave.
@@ -82,7 +79,7 @@ public class ListaComprasController implements Initializable {
     private MyListener myListener;
 
     private List<Produto> getData() {
-        String url = "jdbc:mysql://172.20.0.3:3306/laboratorio?useTimezone=true&serverTimezone=UTC";
+        String url = "jdbc:mysql://172.18.0.3:3306/laboratorio?useTimezone=true&serverTimezone=UTC";
         String username = "root";
         String password = "1";
 

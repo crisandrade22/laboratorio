@@ -6,7 +6,35 @@ public class Produto {
 
     private String imagemSource;
 
-    private double precoProduto;
+    private Double precoProduto;
+
+    private Integer quantidade;
+
+    private String valorTotal;
+
+    public Produto(String nomeProduto, Double precoProduto, Integer quantidade, String valorTotal) {
+        this.nomeProduto = nomeProduto;
+        this.precoProduto = precoProduto;
+        this.quantidade = quantidade;
+        this.valorTotal = valorTotal;
+    }
+
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public String getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(String valorTotal) {
+        this.valorTotal = valorTotal;
+    }
 
     private String cor;
 

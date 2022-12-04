@@ -79,7 +79,7 @@ public class ListaComprasController implements Initializable {
     private MyListener myListener;
 
     private List<Produto> getData() {
-        String url = "jdbc:mysql://172.18.0.3:3306/laboratorio?useTimezone=true&serverTimezone=UTC";
+        String url = "jdbc:mysql://172.20.0.3:3306/laboratorio?useTimezone=true&serverTimezone=UTC";
         String username = "root";
         String password = "1";
 
@@ -93,7 +93,7 @@ public class ListaComprasController implements Initializable {
             p = connection.prepareStatement(sql);
             rs = p.executeQuery();
             while(rs.next()) {
-                Produto produto = new Produto();
+                Produto produto = new Produto(rs.getString("nome"), rs.getDouble("preco_unitario"),1,"5.20");
                 String nome = rs.getString("nome");
                 System.out.println("Produto: " + nome + " Preço: " + rs.getDouble("preco_unitario"));
                 produto.setNomeProduto(rs.getString("nome"));
@@ -209,12 +209,6 @@ public class ListaComprasController implements Initializable {
             e.printStackTrace();
         }
     }
-//    @FXML
-//    public void carrinho() {
-//        lista.removeAll(lista);
-//        lista.addAll(produtosAdicionados.keySet());
-//        produtos.getItems().addAll(lista);
-//    }
     @FXML
     public String valorTotalProduto(KeyEvent key) {
         double valorTotalizado = 0;

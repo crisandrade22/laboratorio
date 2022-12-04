@@ -6,16 +6,23 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="657.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.sp.fatec.laboratorio.main.Carrinho">
    <children>
-      <ListView fx:id="listCarrinho" layoutX="67.0" layoutY="105.0" prefHeight="535.0" prefWidth="574.0" />
       <Label fx:id="myLabel" alignment="CENTER" layoutX="181.0" layoutY="35.0" text="Itens no Carrinho" textAlignment="CENTER">
          <font>
             <Font size="40.0" />
          </font>
       </Label>
-      <Button id="salvarCarrinho" layoutX="323.0" layoutY="582.0" mnemonicParsing="false" text="Salvar" textAlignment="CENTER" onMouseClicked="#adicionarCarrinho">
+      <Button id="salvarCarrinho" layoutX="323.0" layoutY="582.0" mnemonicParsing="false"  text="Salvar" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
+      <TableView fx:id="listCarrinho" layoutX="156.0" layoutY="122.0" prefHeight="446.0" prefWidth="396.0">
+        <columns>
+          <TableColumn fx:id="columnProduto" prefWidth="81.0" text="Produto" />
+          <TableColumn fx:id="columnQuantidade" prefWidth="92.0" text="Quantidade" />
+            <TableColumn fx:id="columnUnitario" prefWidth="122.0" text="Valor Unitário" />
+            <TableColumn fx:id="columnValorTotal" prefWidth="100.0" text="Valor Total" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

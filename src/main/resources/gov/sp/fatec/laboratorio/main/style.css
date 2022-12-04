@@ -53,3 +53,7 @@
     -fx-background-color: #FFFFFF;
         -fx-background-radius: 30;
 }
+
+.table-cell {
+    -fx-alignment: BASELINE_CENTER;
+}

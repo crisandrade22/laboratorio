@@ -78,6 +78,8 @@ public class ListaComprasController implements Initializable {
 
     private MyListener myListener;
 
+    public static Stage carrinho;
+
     private List<Produto> getData() {
         String url = "jdbc:mysql://172.20.0.3:3306/laboratorio?useTimezone=true&serverTimezone=UTC";
         String username = "root";
@@ -205,6 +207,7 @@ public class ListaComprasController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.show();
+            carrinho = stage;
         } catch(Exception e) {
             e.printStackTrace();
         }

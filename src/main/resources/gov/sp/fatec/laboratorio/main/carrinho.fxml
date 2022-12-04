@@ -6,23 +6,25 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="657.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.sp.fatec.laboratorio.main.Carrinho">
    <children>
-      <Label fx:id="myLabel" alignment="CENTER" layoutX="181.0" layoutY="35.0" text="Itens no Carrinho" textAlignment="CENTER">
+      <Label fx:id="myLabel" alignment="CENTER" layoutX="206.0" layoutY="35.0" text="Itens no Carrinho" textAlignment="CENTER">
          <font>
             <Font size="40.0" />
          </font>
       </Label>
-      <Button id="salvarCarrinho" layoutX="323.0" layoutY="582.0" mnemonicParsing="false"  text="Salvar" textAlignment="CENTER">
+      <Button id="salvarCarrinho" layoutX="168.0" layoutY="580.0" mnemonicParsing="false" text="Salvar" textAlignment="CENTER" onMouseClicked="#salvarCarrinho">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <TableView fx:id="listCarrinho" layoutX="156.0" layoutY="122.0" prefHeight="446.0" prefWidth="396.0">
+      <TableView fx:id="listCarrinho" layoutX="142.0" layoutY="120.0" prefHeight="446.0" prefWidth="460.0">
         <columns>
-          <TableColumn fx:id="columnProduto" prefWidth="81.0" text="Produto" />
-          <TableColumn fx:id="columnQuantidade" prefWidth="92.0" text="Quantidade" />
-            <TableColumn fx:id="columnUnitario" prefWidth="122.0" text="Valor Unitário" />
-            <TableColumn fx:id="columnValorTotal" prefWidth="100.0" text="Valor Total" />
+          <TableColumn fx:id="columnProduto" prefWidth="102.0" text="Produto" style="-fx-alignment: CENTER"/>
+          <TableColumn fx:id="columnQuantidade" prefWidth="122.0" text="Quantidade" style="-fx-alignment: CENTER"/>
+            <TableColumn fx:id="columnUnitario" prefWidth="115.0" text="Valor Unitário" style="-fx-alignment: CENTER"/>
+            <TableColumn fx:id="columnValorTotal" prefWidth="120.0" text="Valor Total" style="-fx-alignment: CENTER" />
         </columns>
       </TableView>
+      <Button id="excluir" layoutX="348.0" layoutY="582.0" mnemonicParsing="false" text="Excluir" textAlignment="CENTER" />
+      <Button id="editarItem" layoutX="524.0" layoutY="582.0" mnemonicParsing="false" text="Editar" textAlignment="CENTER"/>
    </children>
 </AnchorPane>

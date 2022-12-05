@@ -12,8 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import org.w3c.dom.events.MouseEvent;
 
 import java.net.URL;
 import java.sql.*;
@@ -22,6 +23,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import com.mysql.cj.MysqlType;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 
 public class Carrinho implements Initializable {
     @FXML
@@ -47,6 +50,7 @@ public class Carrinho implements Initializable {
         Set<Map.Entry<Produto, Integer>> entradas = Sacola.getInstance().entradas();
 
         for (Map.Entry<Produto, Integer> entrada : entradas) {
+            System.out.println("Entrei no for");
             String nomeProduto = entrada.getKey().getNomeProduto();
             Integer quantidade = entrada.getValue();
             double precoProduto = entrada.getKey().getPrecoProduto();
@@ -59,6 +63,8 @@ public class Carrinho implements Initializable {
         }
 
         listCarrinho.setItems(observableList);
+        listCarrinho.setEditable(true);
+        columnQuantidade.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 
     }
     @FXML
@@ -80,7 +86,6 @@ public class Carrinho implements Initializable {
                 Integer quantidade = entrada.getKey().getQuantidade();
                 double precoProduto = entrada.getKey().getPrecoProduto();
                 double valor_total = quantidade * precoProduto;
-                LocalDate now = LocalDate.now();
                 Date date = Date.valueOf(LocalDate.now());
                 System.out.println(date);
 
@@ -97,5 +102,22 @@ public class Carrinho implements Initializable {
         } catch (SQLException e) {
             throw new IllegalStateException("Cannot connect the database!", e);
         }
+    }
+
+
+    public void deleteProdutoCarrinho(MouseEvent mouseEvent) {
+        Produto selectedItem = listCarrinho.getSelectionModel().getSelectedItem();
+        listCarrinho.getItems().removeAll(listCarrinho.getSelectionModel().getSelectedItem());
+        Sacola.getInstance().remover(selectedItem);
+    }
+
+
+    public void editarProdutoCarrinho(TableColumn.CellEditEvent<Produto, Integer> produtoIntegerCellEditEvent) {
+        Produto selectedItem = listCarrinho.getSelectionModel().getSelectedItem();
+        selectedItem.setQuantidade(produtoIntegerCellEditEvent.getNewValue());
+        String valorTotal = String.valueOf(selectedItem.getPrecoProduto() * produtoIntegerCellEditEvent.getNewValue());
+        System.out.println("EU SOU O VALOR TOTAL: " + valorTotal);
+        selectedItem.setValorTotal(valorTotal);
+        Sacola.getInstance().update(selectedItem, produtoIntegerCellEditEvent.getNewValue());
     }
 }

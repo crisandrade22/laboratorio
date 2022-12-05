@@ -180,6 +180,8 @@ public class ListaComprasController implements Initializable {
         int quantidade = Integer.parseInt(text);
         Sacola.getInstance().adicionar(produtoAtual, quantidade);
         System.out.println("produtosAdicionados = " + Sacola.getInstance());
+        reseta();
+
     }
 
     public String getTextFieldQuantidade() {
@@ -230,5 +232,9 @@ public class ListaComprasController implements Initializable {
         return format;
     }
 
+    public void reseta() {
+        precoTotal.setText("");
+        textFieldQuantidade.setText("");
+    }
 }
 

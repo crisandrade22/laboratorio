@@ -1,6 +1,7 @@
 package gov.sp.fatec.laboratorio.model;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,6 +27,23 @@ public class Sacola {
 
     public Set<Produto> chaves() {
         return sacola.keySet();
+    }
+
+    public void remover(Produto p) {
+        Iterator<Map.Entry<Produto, Integer>> iterator = sacola.entrySet().iterator();
+        while (iterator.hasNext()) {
+            if(iterator.next().getKey().equals(p))
+                iterator.remove();
+        }
+    }
+
+    public void update(Produto p, Integer quantidade) {
+        Iterator<Map.Entry<Produto, Integer>> iterator = sacola.entrySet().iterator();
+        while (iterator.hasNext()) {
+            if(iterator.next().getKey().equals(p))
+                iterator.remove();
+        }
+        sacola.put(p, quantidade);
     }
 
 

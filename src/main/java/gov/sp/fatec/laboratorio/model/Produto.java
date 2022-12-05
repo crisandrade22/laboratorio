@@ -1,5 +1,7 @@
 package gov.sp.fatec.laboratorio.model;
 
+import java.util.Objects;
+
 public class Produto {
 
     private String nomeProduto;
@@ -78,5 +80,18 @@ public class Produto {
                 ", preçoProduto=" + precoProduto +
                 ", cor='" + cor + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Produto produto = (Produto) o;
+        return nomeProduto.equals(produto.nomeProduto);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nomeProduto);
     }
 }

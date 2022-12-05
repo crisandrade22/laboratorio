@@ -11,20 +11,19 @@
             <Font size="40.0" />
          </font>
       </Label>
-      <Button id="salvarCarrinho" layoutX="168.0" layoutY="580.0" mnemonicParsing="false" text="Salvar" textAlignment="CENTER" onMouseClicked="#salvarCarrinho">
+      <Button id="salvarCarrinho" layoutX="168.0" layoutY="580.0" mnemonicParsing="false" onMouseClicked="#salvarCarrinho" text="Salvar" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
       <TableView fx:id="listCarrinho" layoutX="142.0" layoutY="120.0" prefHeight="446.0" prefWidth="460.0">
         <columns>
-          <TableColumn fx:id="columnProduto" prefWidth="102.0" text="Produto" style="-fx-alignment: CENTER"/>
-          <TableColumn fx:id="columnQuantidade" prefWidth="122.0" text="Quantidade" style="-fx-alignment: CENTER"/>
-            <TableColumn fx:id="columnUnitario" prefWidth="115.0" text="Valor Unitário" style="-fx-alignment: CENTER"/>
-            <TableColumn fx:id="columnValorTotal" prefWidth="120.0" text="Valor Total" style="-fx-alignment: CENTER" />
+          <TableColumn fx:id="columnProduto" prefWidth="102.0" style="-fx-alignment: CENTER" text="Produto" />
+          <TableColumn fx:id="columnQuantidade" onEditCommit="#editarProdutoCarrinho" prefWidth="122.0" style="-fx-alignment: CENTER" text="Quantidade" />
+            <TableColumn fx:id="columnUnitario" prefWidth="115.0" style="-fx-alignment: CENTER" text="Valor Unitário" />
+            <TableColumn fx:id="columnValorTotal" prefWidth="120.0" style="-fx-alignment: CENTER" text="Valor Total" />
         </columns>
       </TableView>
-      <Button id="excluir" layoutX="348.0" layoutY="582.0" mnemonicParsing="false" text="Excluir" textAlignment="CENTER" />
-      <Button id="editarItem" layoutX="524.0" layoutY="582.0" mnemonicParsing="false" text="Editar" textAlignment="CENTER"/>
+      <Button id="excluir" layoutX="531.0" layoutY="582.0" mnemonicParsing="false" onMouseClicked="#deleteProdutoCarrinho" text="Excluir" textAlignment="CENTER" />
    </children>
 </AnchorPane>

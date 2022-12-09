@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="496.0" prefWidth="363.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.sp.fatec.laboratorio.main.UpdateProdutoController">
+   <children>
+      <TableView fx:id="updateProduto" layoutX="51.0" layoutY="38.0" prefHeight="397.0" prefWidth="264.0">
+        <columns>
+          <TableColumn fx:id="idNomeProduto" prefWidth="130.0"  style="-fx-alignment: CENTER" text="Nome Produto" />
+          <TableColumn fx:id="idPrecoProduto" onEditCommit="#alteracaoProduto" prefWidth="130.0"  style="-fx-alignment: CENTER" text="Preço Unitário" />
+        </columns>
+      </TableView>
+      <Button id="salvar" layoutX="151.0" layoutY="447.0" mnemonicParsing="false" onMouseClicked="#salvarUpdate" text="Salvar" />
+   </children>
+</AnchorPane>

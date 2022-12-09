@@ -14,11 +14,26 @@ public class Produto {
 
     private String valorTotal;
 
+    public Produto() {
+
+    }
     public Produto(String nomeProduto, Double precoProduto, Integer quantidade, String valorTotal) {
         this.nomeProduto = nomeProduto;
         this.precoProduto = precoProduto;
         this.quantidade = quantidade;
         this.valorTotal = valorTotal;
+    }
+
+    public Produto(String nome, Double preco, String caminho) {
+        this.nomeProduto = nome;
+        this.precoProduto = preco;
+        this.imagemSource = caminho;
+
+    }
+
+    public Produto(String nomeProduto, double valorUnitario) {
+        this.nomeProduto = nomeProduto;
+        this.precoProduto = valorUnitario;
     }
 
 

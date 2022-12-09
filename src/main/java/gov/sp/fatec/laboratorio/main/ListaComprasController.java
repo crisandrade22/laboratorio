@@ -2,8 +2,6 @@ package gov.sp.fatec.laboratorio.main;
 
 import gov.sp.fatec.laboratorio.model.Produto;
 import gov.sp.fatec.laboratorio.model.Sacola;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,7 +23,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class ListaComprasController implements Initializable {
 //TODO quando a chave do produto já existe e a pessoa for adicionar o mesmo item, somar a quantidade na mesma chave.
@@ -34,11 +35,6 @@ public class ListaComprasController implements Initializable {
 //TODO quando clicar no carrinho aparecer a lista de todos os produtos adicionados.
 //TODO colocar botão para adicionar, excluir ou alterar produtos.
 //TODO mostrar para o usuário compras anteriores.
-
-    ObservableList lista = FXCollections.observableArrayList();
-
-    @FXML
-    private ListView<Produto> produtos;
 
     @FXML
     private VBox produtoEscolhido;
@@ -50,9 +46,15 @@ public class ListaComprasController implements Initializable {
     private TextField valorTotalCompra;
 
     @FXML
+    private TextField campoBusca;
+
+    @FXML
+    private TextField dataCompra;
+
+    @FXML
     private TextField textFieldQuantidade;
 
-    private Produto produtoAtual;
+    public static Produto produtoAtual;
 
     @FXML
     private Button button;
@@ -72,6 +74,7 @@ public class ListaComprasController implements Initializable {
     @FXML
     private GridPane grid;
 
+
     private List<Produto> listaProdutos = new ArrayList<>();
 
     private Image imagemProduto;
@@ -79,6 +82,11 @@ public class ListaComprasController implements Initializable {
     private MyListener myListener;
 
     public static Stage carrinho;
+
+    public static Stage update;
+
+    public static Stage cadastro;
+
 
     private List<Produto> getData() {
         String url = "jdbc:mysql://172.20.0.3:3306/laboratorio?useTimezone=true&serverTimezone=UTC";
@@ -94,8 +102,8 @@ public class ListaComprasController implements Initializable {
             String sql = "select * from produtos";
             p = connection.prepareStatement(sql);
             rs = p.executeQuery();
-            while(rs.next()) {
-                Produto produto = new Produto(rs.getString("nome"), rs.getDouble("preco_unitario"),1,"5.20");
+            while (rs.next()) {
+                Produto produto = new Produto(rs.getString("nome"), rs.getDouble("preco_unitario"), 1, "5.20");
                 String nome = rs.getString("nome");
                 System.out.println("Produto: " + nome + " Preço: " + rs.getDouble("preco_unitario"));
                 produto.setNomeProduto(rs.getString("nome"));
@@ -125,9 +133,11 @@ public class ListaComprasController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resourceBundle) {
+        System.out.println("location = " + location);
+        System.out.println("resourceBundle = " + resourceBundle);
         System.out.println("Initialize size: " + listaProdutos.size());
         listaProdutos.addAll(getData());
-        if(listaProdutos.size() > 0) {
+        if (listaProdutos.size() > 0) {
             setProdutoEscolhido(listaProdutos.get(0));
             myListener = new MyListener() {
                 @Override
@@ -148,7 +158,7 @@ public class ListaComprasController implements Initializable {
 
                 ItemController itemController = fxmlLoader.getController();
                 System.out.println(listaProdutos.get(i).getNomeProduto());
-                itemController.setData(listaProdutos.get(i),myListener);
+                itemController.setData(listaProdutos.get(i), myListener);
 
                 if (column == 3) {
                     column = 0;
@@ -173,6 +183,7 @@ public class ListaComprasController implements Initializable {
         }
 
     }
+
     @FXML
     public void adicionar(MouseEvent key) {
         System.out.println("Olha eu aqui");
@@ -191,9 +202,9 @@ public class ListaComprasController implements Initializable {
     @FXML
     public Double calcularValorTotal(MouseEvent event) {
         double totalPagar = 0;
-        for(Map.Entry<Produto, Integer> entry : Sacola.getInstance().entradas()) {
+        for (Map.Entry<Produto, Integer> entry : Sacola.getInstance().entradas()) {
             System.out.println("Get preço produto: " + entry.getKey().getPrecoProduto() + "Get entry value: " + entry.getValue());
-           totalPagar +=  entry.getKey().getPrecoProduto() * entry.getValue();
+            totalPagar += entry.getKey().getPrecoProduto() * entry.getValue();
         }
         valorTotalCompra.setText(String.valueOf(totalPagar));
 
@@ -201,7 +212,7 @@ public class ListaComprasController implements Initializable {
     }
 
 
-    public void pressButton(MouseEvent event){
+    public void pressButton(MouseEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("carrinho.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
@@ -210,18 +221,18 @@ public class ListaComprasController implements Initializable {
             stage.setScene(new Scene(root1));
             stage.show();
             carrinho = stage;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     @FXML
     public String valorTotalProduto(KeyEvent key) {
         double valorTotalizado = 0;
         String format = null;
-        if(getTextFieldQuantidade().isBlank()){
+        if (getTextFieldQuantidade().isBlank()) {
             precoTotal.setText("");
-        }
-        else {
+        } else {
             String text = getTextFieldQuantidade();
             int quantidade = Integer.parseInt(text);
             System.out.println("Valor total: " + produtoAtual.getPrecoProduto() * quantidade);
@@ -236,5 +247,167 @@ public class ListaComprasController implements Initializable {
         precoTotal.setText("");
         textFieldQuantidade.setText("");
     }
+
+    public void alterarProduto(MouseEvent mouseEvent) {
+        Produto produtoParaAlterar = produtoAtual;
+        System.out.println("Eu sou o produto atual: " + produtoParaAlterar.getNomeProduto());
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("updateProduto.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            fxmlLoader.getController();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+            update = stage;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void cadastrarProduto(MouseEvent mouseEvent) {
+        Produto produtoParaAlterar = produtoAtual;
+        System.out.println("Eu sou o produto atual: " + produtoParaAlterar.getNomeProduto());
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cadastrarProduto.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            fxmlLoader.getController();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            cadastro = stage;
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void excluirProduto(MouseEvent mouseEvent) {
+        Produto produtoDeletar = produtoAtual;
+        String url = "jdbc:mysql://172.20.0.3:3306/laboratorio?useTimezone=true&serverTimezone=UTC";
+        String username = "root";
+        String password = "1";
+        Stage primaryStage = new Stage();
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM produtos WHERE nome = (?);");
+
+
+            preparedStatement.setString(1, produtoDeletar.getNomeProduto());
+            preparedStatement.executeUpdate();
+            System.out.println("Executado: " + preparedStatement);
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("listaCompras.fxml"));
+            primaryStage.setTitle("Lista de Compras");
+            primaryStage.setScene(new Scene(fxmlLoader.load()));
+            primaryStage.show();
+            initialize(null, null);
+            sucesso();
+        } catch (SQLException e) {
+            throw new IllegalStateException("Cannot connect the database!", e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void sucesso() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Informação");
+        alert.setHeaderText("O produto foi excluído com sucesso.");
+        alert.setContentText("Talvez seja necessário reiniciar o sistema.");
+        alert.showAndWait().ifPresent(rs -> {
+        });
+    }
+
+    public void buscarProduto(MouseEvent mouseEvent) {
+        String text = campoBusca.getText();
+        boolean encontrado = false;
+        for (Produto produto : listaProdutos) {
+            if (produto.getNomeProduto().equalsIgnoreCase(text)) {
+                encontrado = true;
+                setProdutoEscolhido(produto);
+            }
+        }
+        if (!encontrado) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Informação");
+            alert.setHeaderText("O produto não foi encontrado.");
+            alert.setContentText("Verifique se você digitou o nome corretamente.");
+            alert.showAndWait().ifPresent(rs -> {
+            });
+        }
+    }
+
+    public void buscarCompras(MouseEvent mouseEvent) {
+        String mesEscolhido = dataCompra.getText();
+        int mes = 0;
+        switch (mesEscolhido) {
+            case "1":
+                mes = 1;
+                break;
+            case "2":
+                mes = 2;
+            case "3":
+                mes = 3;
+            case "4":
+                mes = 4;
+            case "5":
+                mes = 5;
+            case "36":
+                mes = 6;
+            case "7":
+                mes = 7;
+            case "8":
+                mes = 8;
+            case "9":
+                mes = 9;
+            case "10":
+                mes = 10;
+            case "11":
+                mes = 11;
+            case "12":
+                mes = 12;
+        }
+
+        String url = "jdbc:mysql://172.20.0.3:3306/laboratorio?useTimezone=true&serverTimezone=UTC";
+        String username = "root";
+        String password = "1";
+        ResultSet rs = null;
+        Stage primaryStage = new Stage();
+        double totalMes = 0;
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT nome_produto, valor_total, MONTH(data_compra) AS MONTH, YEAR(data_compra) AS YEAR FROM produtosComprados WHERE  MONTH(data_compra) = (?);");
+            System.out.println(preparedStatement);
+            preparedStatement.setInt(1, mes);
+            rs = preparedStatement.executeQuery();
+
+            while(rs.next()) {
+                double valorUnitario = rs.getDouble("valor_total");
+                totalMes += valorUnitario;
+            }
+            mostraLista(mes, totalMes);
+            System.out.println("Executado: " + preparedStatement);
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("listaCompras.fxml"));
+            primaryStage.setTitle("Lista de Compras");
+            primaryStage.setScene(new Scene(fxmlLoader.load()));
+            primaryStage.show();
+            initialize(null, null);
+            sucesso();
+        } catch (SQLException e) {
+            throw new IllegalStateException("Cannot connect the database!", e);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void mostraLista(int mes, double valorTotal) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Informação");
+        alert.setHeaderText("Valor gasto no mês " + mes + " : " + String.format("%.2f", valorTotal));
+        alert.setContentText("Talvez seja necessário reiniciar o sistema.");
+        alert.showAndWait().ifPresent(rs -> {
+        });
+    }
 }
+
 

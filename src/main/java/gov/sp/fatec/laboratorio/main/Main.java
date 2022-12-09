@@ -7,6 +7,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     public static final String CURRENCY = "R$";
+
+    public static Stage primaryStage;
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("listaCompras.fxml"));

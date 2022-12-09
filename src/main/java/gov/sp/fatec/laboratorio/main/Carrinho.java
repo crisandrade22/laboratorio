@@ -5,16 +5,13 @@ import gov.sp.fatec.laboratorio.model.Sacola;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+import javafx.util.converter.IntegerStringConverter;
 
 import java.net.URL;
 import java.sql.*;
@@ -22,9 +19,6 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import com.mysql.cj.MysqlType;
-import javafx.util.converter.DoubleStringConverter;
-import javafx.util.converter.IntegerStringConverter;
 
 public class Carrinho implements Initializable {
     @FXML
@@ -84,6 +78,7 @@ public class Carrinho implements Initializable {
             for (Map.Entry<Produto, Integer> entrada : entradas) {
                 String nomeProduto = entrada.getKey().getNomeProduto();
                 Integer quantidade = entrada.getKey().getQuantidade();
+                System.out.println("QUANTIDADE: "+ quantidade);
                 double precoProduto = entrada.getKey().getPrecoProduto();
                 double valor_total = quantidade * precoProduto;
                 Date date = Date.valueOf(LocalDate.now());
